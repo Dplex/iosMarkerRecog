@@ -1,0 +1,62 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    def config = defaultConfig {
+        applicationId "com.qoon"
+        minSdkVersion 18
+        targetSdkVersion 21
+
+        ndk {
+            moduleName "test3"
+        }
+    }
+
+    sourceSets.main.jni.srcDirs = []
+
+
+    task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
+
+        def ndkDir = project.plugins.findPlugin('com.android.application').sdkHandler.getNdkFolder()
+
+        commandLine "$ndkDir/ndk-build",
+
+                'NDK_PROJECT_PATH=build/intermediates/ndk',
+
+                'NDK_LIBS_OUT=src/main/jniLibs',
+
+                'APP_BUILD_SCRIPT=src/main/jni/Android.mk',
+
+                'NDK_APPLICATION_MK=src/main/jni/Application.mk'
+
+    }
+
+    tasks.withType(JavaCompile) {
+
+        compileTask -> compileTask.dependsOn ndkBuild
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile project(':openCVLibrary310')
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+}

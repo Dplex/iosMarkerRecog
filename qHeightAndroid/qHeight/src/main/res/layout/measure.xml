@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_vertical"
+    android:orientation="vertical"
+    android:id="@+id/captureFrame"
+     >
+
+	<FrameLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+
+	    <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/measureView"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/slider1"
+                android:layout_width="fill_parent"
+                android:layout_height="168px"
+                android:layout_gravity="right"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="100dp"
+                android:clickable="true"
+                android:src="@drawable/slider_3_01" />
+            
+            <ImageView
+                android:id="@+id/slider2"
+                android:layout_width="fill_parent"
+                android:layout_height="168px"
+                android:layout_gravity="right"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="350dp"
+                android:clickable="true"
+                android:src="@drawable/slider_3_01" />
+
+            <ImageView
+                android:id="@+id/markerSlider1"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginRight="239dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="100dp"
+                android:clickable="true"
+                android:src="@drawable/shadow_marker_bar"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/markerSlider2"
+                android:layout_width="fill_parent"
+                android:layout_height="35dp"
+                android:layout_marginRight="239dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="350dp"
+                android:clickable="true"
+                android:src="@drawable/shadow_marker_bar"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="60dp"
+                android:src="@drawable/ruler_1" />
+
+        </FrameLayout>
+	    
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="212px"
+            android:layout_weight="0" >
+
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="나눔바른고딕"
+                android:text="촬영날짜"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#f27273"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/exit"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="9dp"
+                android:background="@drawable/btn_close3" />
+
+            <Button
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:id="@+id/guideButtonInPreview"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="left|top"
+                android:background="@drawable/q_mark2"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="117dp"
+            android:layout_gravity="bottom"
+            android:layout_weight="0"
+            android:background="#ffffff" >
+
+            <Button
+                android:id="@+id/save"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="24dp"
+                android:background="@drawable/btn_confirm" />
+
+            <TextView
+                android:id="@+id/markerStringText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:text="마커길이"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/heightIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="34dp"
+                android:background="@drawable/icon_height4" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="104dp" >
+
+                <TextView
+                    android:id="@+id/textHeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="0dp"
+                    android:text="0"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#f27273"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/upcm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/textHeight"
+                    android:layout_alignBottom="@+id/textHeight"
+                    android:layout_toRightOf="@+id/textHeight"
+                    android:layout_marginLeft="9dp"
+                    android:text="cm"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#f27273"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/markerHeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/textHeight"
+                    android:layout_alignParentLeft="true"
+                    android:ems="5"
+                    android:inputType="numberDecimal"
+                    android:text="30"
+                    android:textSize="18sp"
+                    android:width="50dp">
+
+                    <requestFocus />
+                </EditText>
+
+                <TextView
+                    android:id="@+id/removeCm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/markerHeight"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toRightOf="@+id/markerHeight"
+                    android:text="cm"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#f27273"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="10dp"/>
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+</FrameLayout>
+   
+
+</RelativeLayout>

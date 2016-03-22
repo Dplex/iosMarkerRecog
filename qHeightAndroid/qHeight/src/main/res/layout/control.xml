@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="124dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1" >
+
+        <FrameLayout
+            android:layout_width="208dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="0" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                android:shadowColor="#FF464646"
+                android:shadowDx="1.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/control_left" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="82dp"
+                android:text="수평인식"
+                android:textSize="12sp" />
+
+            <com.qoon.RecogView
+                android:id="@+id/sensorRecogView"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="84dp" />
+
+            <com.qoon.RecogView
+                android:id="@+id/markerRecogView"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="88dp"
+                android:layout_marginTop="84dp" />
+
+            <com.qoon.SensorView
+                android:id="@+id/qoonSensorView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="22dp" />
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="-4dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            android:src="@drawable/control_mid" />
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="25dp"
+            android:layout_weight="0" >
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/control_right" />
+
+            <Button
+                android:id="@+id/takePicture"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="2dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/btn_shoot1"
+                android:minHeight="38dp"
+                android:minWidth="38dp" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+</FrameLayout>

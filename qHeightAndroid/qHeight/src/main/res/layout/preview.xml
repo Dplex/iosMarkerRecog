@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <SurfaceView
+            android:id="@+id/camerapreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+             />
+
+        <include
+            android:id="@+id/control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            layout="@layout/control" />
+        
+        <Button
+            android:id="@+id/exitPreview"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/btn_close3" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="127dp"
+            android:layout_marginTop="74dp"
+            android:alpha="0.5"
+            android:scaleType="fitCenter"
+            android:src="@drawable/guide_baby" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="아래 가이드라인에 맞춰 촬영해주세요"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#f27273"
+                android:textSize="15sp" />
+
+        </FrameLayout>
+
+        <Button
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:id="@+id/guideButtonInPreview"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="left|top"
+            android:background="@drawable/q_mark2"/>
+
+    </FrameLayout>
+</LinearLayout>
