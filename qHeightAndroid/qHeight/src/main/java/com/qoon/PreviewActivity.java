@@ -216,36 +216,63 @@ public class PreviewActivity extends Activity implements SurfaceHolder.Callback 
     }
   }
 
-  @Override
-  public void surfaceChanged(SurfaceHolder holder, int format, int width,
-                             int height) {
+  private Size getOptimalPreviewSize(List<Size> sizes, int width, int height) {
+		final double ASPECT_TOLERANCE = 0.05;
+		double targetRatio = (double) width / height;
+		if (sizes == null) {
+			return null;
+		}
 
-    Camera.Parameters params = camera.getParameters();
-    List<Size> arSize = params.getSupportedPreviewSizes();
-    if (arSize == null) {
-      params.setPreviewSize(width, height);
-    } else {
-      int diff = 10000;
-      Size opti = null;
-      for (Size s : arSize) {
-        if (Math.abs(s.height - height) < diff) {
-          diff = Math.abs(s.height - height);
-          opti = s;
-        }
-      }
-      params.setPreviewSize(opti.width, opti.height);
-    }
+		Size optimalSize = null;
+		double minDiff = Double.MAX_VALUE;
 
-    Camera.Parameters parameters = camera.getParameters();
-    previewSize = camera.getParameters().getPreviewSize();
-    screenWidth = previewSize.width;
-    screenHeight = previewSize.height;
-    //		parameters.set("orientation", "portrait");
-    //		parameters.set("rotation", 90);
-    camera.setParameters(parameters);
-    camera.startPreview();
-    camera.setDisplayOrientation(90);
-  }
+		int targetHeight = height;
+
+		// Try to find an size match aspect ratio and size
+		for (Size size : sizes) {
+			double ratio = (double) size.width / size.height;
+			if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) {
+				continue;
+			}
+			if (Math.abs(size.height - targetHeight) < minDiff) {
+				optimalSize = size;
+				minDiff = Math.abs(size.height - targetHeight);
+			}
+		}
+
+		// Cannot find the one match the aspect ratio, ignore the requirement
+		if (optimalSize == null) {
+			minDiff = Double.MAX_VALUE;
+			for (Size size : sizes) {
+				if (Math.abs(size.height - targetHeight) < minDiff) {
+					optimalSize = size;
+					minDiff = Math.abs(size.height - targetHeight);
+				}
+			}
+		}
+		Log.i("optimal size", ""+optimalSize.width+" x "+optimalSize.height);
+		return optimalSize;
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+
+		Camera.Parameters params = camera.getParameters();
+		List<Size> sizes = params.getSupportedPreviewSizes();
+		 Size optimalSize = getOptimalPreviewSize(sizes, width, height);
+		 params.setPreviewSize(optimalSize.width, optimalSize.height);
+
+		Camera.Parameters parameters = camera.getParameters();
+		previewSize = camera.getParameters().getPreviewSize();
+		screenWidth = previewSize.width;
+		screenHeight = previewSize.height;
+		//		parameters.set("orientation", "portrait");
+		//		parameters.set("rotation", 90);
+		camera.setParameters(parameters);
+		camera.startPreview();
+		camera.setDisplayOrientation(90);
+	}
 
   @Override
   public void surfaceCreated(SurfaceHolder holder) {
