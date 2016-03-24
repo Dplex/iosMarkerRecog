@@ -53,7 +53,7 @@ public class PreviewActivity extends Activity implements SurfaceHolder.Callback 
   Intent parentIntent;
   SensorView sensorView;
 
-//  RecogView recogView;
+  //  RecogView recogView;
   private RecogView markerRecogView;
   private RecogView sensorRecogView;
   MediaPlayer _shootMP;
@@ -187,18 +187,19 @@ public class PreviewActivity extends Activity implements SurfaceHolder.Callback 
       camera = null;
       previewing = false;
 
-      bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);
+      bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
       byte[] b = data;
       try {
         BitmapFactory.Options opts = new BitmapFactory.Options();
-        opts.inSampleSize = 4;
+        opts.inSampleSize = 1;
         bitmap = BitmapFactory.decodeByteArray(b, 0, b.length, opts);
       } catch (Exception e) {
         return;
       }
       long y = System.currentTimeMillis();
       Log.i("JHR", "time : " + String.valueOf(y - x));
+
       Intent it = new Intent(getBaseContext(), MeasureActivity.class);
       startActivityForResult(it, 1);
 
@@ -217,62 +218,65 @@ public class PreviewActivity extends Activity implements SurfaceHolder.Callback 
   }
 
   private Size getOptimalPreviewSize(List<Size> sizes, int width, int height) {
-		final double ASPECT_TOLERANCE = 0.05;
-		double targetRatio = (double) width / height;
-		if (sizes == null) {
-			return null;
-		}
+    final double ASPECT_TOLERANCE = 0.05;
+    double targetRatio = (double) width / height;
+    if (sizes == null) {
+      return null;
+    }
 
-		Size optimalSize = null;
-		double minDiff = Double.MAX_VALUE;
+    Size optimalSize = null;
+    double minDiff = Double.MAX_VALUE;
 
-		int targetHeight = height;
+    int targetHeight = height;
 
-		// Try to find an size match aspect ratio and size
-		for (Size size : sizes) {
-			double ratio = (double) size.width / size.height;
-			if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) {
-				continue;
-			}
-			if (Math.abs(size.height - targetHeight) < minDiff) {
-				optimalSize = size;
-				minDiff = Math.abs(size.height - targetHeight);
-			}
-		}
+    // Try to find an size match aspect ratio and size
+    for (Size size : sizes) {
+      double ratio = (double) size.width / size.height;
+      if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) {
+        continue;
+      }
+      if (Math.abs(size.height - targetHeight) < minDiff) {
+        optimalSize = size;
+        minDiff = Math.abs(size.height - targetHeight);
+      }
+    }
 
-		// Cannot find the one match the aspect ratio, ignore the requirement
-		if (optimalSize == null) {
-			minDiff = Double.MAX_VALUE;
-			for (Size size : sizes) {
-				if (Math.abs(size.height - targetHeight) < minDiff) {
-					optimalSize = size;
-					minDiff = Math.abs(size.height - targetHeight);
-				}
-			}
-		}
-		Log.i("optimal size", ""+optimalSize.width+" x "+optimalSize.height);
-		return optimalSize;
-	}
+    // Cannot find the one match the aspect ratio, ignore the requirement
+    if (optimalSize == null) {
+      minDiff = Double.MAX_VALUE;
+      for (Size size : sizes) {
+        if (Math.abs(size.height - targetHeight) < minDiff) {
+          optimalSize = size;
+          minDiff = Math.abs(size.height - targetHeight);
+        }
+      }
+    }
+    Log.i("optimal size", "" + optimalSize.width + " x " + optimalSize.height);
+    return optimalSize;
+  }
 
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
+  @Override
+  public void surfaceChanged(SurfaceHolder holder, int format, int width,
+                             int height) {
+    Log.e("Preview", "SurfaceChanged!!!!");
+    camera.stopPreview();
 
-		Camera.Parameters params = camera.getParameters();
-		List<Size> sizes = params.getSupportedPreviewSizes();
-		 Size optimalSize = getOptimalPreviewSize(sizes, width, height);
-		 params.setPreviewSize(optimalSize.width, optimalSize.height);
+    Camera.Parameters params = camera.getParameters();
+    List<Size> sizes = params.getSupportedPreviewSizes();
+    Size os = getOptimalPreviewSize(sizes, width, height);
+//    Camera.Parameters params = camera.getParameters();
+    params.setPreviewSize(os.width, os.height);
+    params.setPictureSize(os.width, os.height);
+    camera.setParameters(params);
 
-		Camera.Parameters parameters = camera.getParameters();
-		previewSize = camera.getParameters().getPreviewSize();
-		screenWidth = previewSize.width;
-		screenHeight = previewSize.height;
-		//		parameters.set("orientation", "portrait");
-		//		parameters.set("rotation", 90);
-		camera.setParameters(parameters);
-		camera.startPreview();
-		camera.setDisplayOrientation(90);
-	}
+//    Camera.Parameters parameters = camera.getParameters();
+    previewSize = camera.getParameters().getPictureSize();
+    screenWidth = previewSize.width;
+    screenHeight = previewSize.height;
+
+    camera.setDisplayOrientation(90);
+    camera.startPreview();
+  }
 
   @Override
   public void surfaceCreated(SurfaceHolder holder) {
@@ -285,21 +289,16 @@ public class PreviewActivity extends Activity implements SurfaceHolder.Callback 
       camera = Camera.open();
       camera.setPreviewDisplay(surfaceHolder);
 
-//			DisplayMetrics metrics = new DisplayMetrics();
-//			getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//			screenWidth = metrics.widthPixels;
-//			screenHeight = metrics.heightPixels;
-//
-//			// �Ʒ� ���ڸ� �����Ͽ� �ڽ��� ���ϴ� �ػ󵵷� �����Ѵ�
-//
-//			Camera.Parameters params = camera.getParameters();
-//			params.setPreviewSize(screenWidth, screenHeight);
-//
-//			// screen ũ�⿡ �� �������!!!!!!!!!!!!!!!!!!!!!
-//			params.setPictureSize(screenWidth, screenHeight);
-//			//	camera.setParameters(params);
-      camera.startPreview();
+//      DisplayMetrics metrics = new DisplayMetrics();
+//      getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//      screenWidth = 720;
+//      screenHeight = 1280;
 
+//      Camera.Parameters params = camera.getParameters();
+//      params.setPreviewSize(screenWidth, screenHeight);
+//      params.setPictureSize(screenWidth, screenHeight);
+//      camera.setParameters(params);
+//      camera.startPreview();
 
     } catch (IOException e) {
 

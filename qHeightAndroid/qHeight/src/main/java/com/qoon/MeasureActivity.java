@@ -97,6 +97,10 @@ public class MeasureActivity extends Activity implements OnClickListener, OnTouc
     heightText = (TextView) findViewById(R.id.textHeight);
     preview = getIntent();
     ImageView iv = (ImageView) findViewById(R.id.measureView);
+
+    int ivWidth = iv.getWidth();
+    int ivHeight = iv.getHeight();
+
     bitmap = imgRotate(PreviewActivity.getBitmap());
     iv.setImageBitmap(bitmap);
     exitButton = (Button) findViewById(R.id.exit);
