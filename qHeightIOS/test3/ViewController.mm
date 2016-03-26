@@ -46,10 +46,10 @@ cv::Size imgViewSize;
     UIImage *resImage = [UIImage imageWithContentsOfFile:markerPath];
     UIImageToMat(resImage, markerMat);
     
-    self.videoCamera = [[VideoCamera alloc] initWithParentView:imageView];
+    self.videoCamera = [[VideoCamera alloc] initWithParentView:tempView];
     self.videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionBack;
     self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPresetPhoto;
-    self.videoCamera.defaultFPS = 24;
+    self.videoCamera.defaultFPS = 30;
     self.videoCamera.grayscaleMode = NO;
     self.videoCamera.delegate = self;
     self.videoCamera.defaultAVCaptureVideoOrientation = AVCaptureVideoOrientationPortrait;
@@ -70,18 +70,48 @@ cv::Size imgViewSize;
     imgViewSize.width = imageView.frame.size.width;
 }
 
+
++(UIImage* )imageWithCVMat
+{
+    
+    NSData *data = [NSData dataWithBytes:myMat.data length:myMat.elemSize() * myMat.total()];
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+    CGImageRef imageRef = CGImageCreate(myMat.cols, myMat.rows, 8, 8 * myMat.elemSize(), myMat.step[0], colorSpace, kCGImageAlphaNone | kCGBitmapByteOrderDefault, provider, NULL, false, kCGRenderingIntentDefault);
+    
+    UIImage *image = [[UIImage alloc]initWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
+    
+    return image;
+}
+
+
 #if __cplusplus
 - (void)processImage:(cv::Mat &)image;
 {
     
-    NSLog(@"processImage %d : %d", image.rows, image.cols);
     cvtColor(image, myMat, CV_RGBA2BGR);
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [imageView setImage:[ViewController imageWithCVMat]];
+        });
+    });
     
-    pyrDown(myMat, myMat);
-    pyrDown(myMat, myMat);
+    
+    /*
+    circle(image, cv::Point(50, 50), 50, Scalar(0, 255, 0));
+//    circle(image, cv::Point(50, 50), 50, Scalar(0, 255, 0));
+    Mat processMat = image.clone();
+    
+    pyrDown(processMat, processMat);
+    pyrDown(processMat, processMat);
     
     CMarkerRcgn mr;
-    mr.setParam(myMat, markerMat);
+    mr.setParam(processMat, markerMat);
     mr.doProc();
     
     DisPoint[0].x = 0;
@@ -108,6 +138,7 @@ cv::Size imgViewSize;
             });
         });
     }
+     */
 }
 #endif
 

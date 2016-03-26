@@ -10,7 +10,9 @@
 #ifndef Header_h
 #define Header_h
 
-#import <opencv2/videoio/cap_ios.h>
+#ifdef __cplusplus
+#include <opencv2/videoio/cap_ios.h>
+#endif
 
 @protocol VideoCameraDelegate <CvVideoCameraDelegate>
 @end

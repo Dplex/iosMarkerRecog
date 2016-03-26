@@ -23,7 +23,7 @@ using namespace cv;
     IBOutlet UIButton* shotBt;
     IBOutlet UILabel* label;
     VideoCamera* videoCamera;
-
+    IBOutlet UIImageView* tempView;
 
     
 }

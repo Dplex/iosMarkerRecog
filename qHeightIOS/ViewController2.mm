@@ -68,6 +68,7 @@ NSString *saveFileName;
     [[self sliderLeft1]setUserInteractionEnabled:YES];
     [[self sliderLeft2]setUserInteractionEnabled:YES];
     [imgView setImage:[ViewController2 imageWithCVMat]];
+     NSLog(@"!!!!%d %d %f %f", markerAddMat.cols, markerAddMat.rows, imgView.frame.size.height, imgView.frame.size.width);
 
     if(DisPoint[0].x != 0){
         [[self sliderLeft1]removeFromSuperview];
@@ -90,8 +91,8 @@ cv::Mat markerAddMat;
 +(UIImage* )imageWithCVMat
 {
     markerAddMat = myMat.clone();
-    cv::pyrUp(markerAddMat, markerAddMat);
-    cv::pyrUp(markerAddMat, markerAddMat);
+//    cv::pyrUp(markerAddMat, markerAddMat);
+//    cv::pyrUp(markerAddMat, markerAddMat);
     NSLog(@"MatSize %d %d", markerAddMat.rows, markerAddMat.cols);
     if(DisPoint[0].x !=0){
         
@@ -102,7 +103,6 @@ cv::Mat markerAddMat;
         }
     }
     
-    NSLog(@"!!!!%d %d", markerAddMat.cols, markerAddMat.rows);
     
     NSData *data = [NSData dataWithBytes:markerAddMat.data length:markerAddMat.elemSize() * markerAddMat.total()];
     
